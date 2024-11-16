@@ -1,6 +1,8 @@
 package com.financeModule.CRUD.Controller;
 
 
+import com.financeModule.CRUD.Exceptions.ClientHasProjectsException;
+import com.financeModule.CRUD.Services.ClientService;
 import com.financeModule.CRUD.model.Client;
 import com.financeModule.CRUD.repository.ClientRepo;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -16,6 +18,8 @@ import java.util.Optional;
 
 public class ClientControler {
 
+    @Autowired
+    private ClientService clientService;
 
     @Autowired
     private ClientRepo clientRepo;
@@ -69,9 +73,19 @@ public class ClientControler {
         return new ResponseEntity<>(HttpStatus.NOT_FOUND);
     }
 
+
     @DeleteMapping("/deleteClientWithID/{id}")
-    public ResponseEntity<HttpStatus> deleteClientWithID(@PathVariable Long id) {
-            clientRepo.deleteById(id);
-            return new ResponseEntity<>(HttpStatus.OK);
+    public ResponseEntity<String> deleteClientWithID(@PathVariable Long id) {
+        try {
+            // Delegate to the service to handle the deletion
+            clientService.deleteClient(id);
+            return ResponseEntity.ok("Client deleted successfully.");
+        } catch (ClientHasProjectsException e) {
+            // Return 400 Bad Request if client has associated projects
+            return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(e.getMessage());
+        } catch (RuntimeException e) {
+            // Return 404 Not Found if client doesn't exist
+            return ResponseEntity.status(HttpStatus.NOT_FOUND).body(e.getMessage());
+        }
     }
 }
