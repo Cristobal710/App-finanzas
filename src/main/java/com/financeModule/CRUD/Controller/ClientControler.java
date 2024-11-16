@@ -54,7 +54,7 @@ public class ClientControler {
         return new ResponseEntity<>(clientObj , HttpStatus.OK);
     }
 
-    @PostMapping("/updateClientWithID")
+    @PostMapping("/updateClientWithID/{id}")
     public ResponseEntity<Client> updateClientWithID(@PathVariable Long id, @RequestBody Client newClientData) {
         Optional<Client> oldClientData = clientRepo.findById(id);
 
@@ -69,7 +69,7 @@ public class ClientControler {
         return new ResponseEntity<>(HttpStatus.NOT_FOUND);
     }
 
-    @DeleteMapping("/deleteClientWithID")
+    @DeleteMapping("/deleteClientWithID/{id}")
     public ResponseEntity<HttpStatus> deleteClientWithID(@PathVariable Long id) {
             clientRepo.deleteById(id);
             return new ResponseEntity<>(HttpStatus.OK);
