@@ -77,7 +77,7 @@ public class ClientControler {
     @DeleteMapping("/deleteClientWithID/{id}")
     public ResponseEntity<String> deleteClientWithID(@PathVariable Long id) {
         try {
-            // Delegate to the service to handle the deletion
+
             clientService.deleteClient(id);
             return ResponseEntity.ok("Client deleted successfully.");
         } catch (ClientHasProjectsException e) {
