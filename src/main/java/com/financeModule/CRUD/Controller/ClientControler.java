@@ -51,7 +51,7 @@ public class ClientControler {
     public ResponseEntity<Client> addClient(@RequestBody Client client) {
         Client clientObj = clientRepo.save(client);
 
-        return new ResponseEntity<>(clientObj , HttpStatus.OK);
+        return new ResponseEntity<>(clientObj , HttpStatus.CREATED);
     }
 
     @PostMapping("/updateClientWithID/{id}")
