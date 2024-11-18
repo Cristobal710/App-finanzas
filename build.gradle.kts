@@ -40,6 +40,11 @@ dependencies {
 	testImplementation ("io.cucumber:cucumber-junit:7.4.1")
 }
 
+tasks.withType<ProcessResources> {
+	duplicatesStrategy = DuplicatesStrategy.EXCLUDE // You can also use INCLUDE, WARN, or FAIL
+}
+
+
 sourceSets {
 	test {
 		java.srcDirs("src/test/java")

@@ -36,6 +36,27 @@ public class Resource {
     private String IdRol;  // This is the foreign key to Role
 
     @ManyToOne(fetch = FetchType.EAGER)
-    @JoinColumn(name = "rol_id", referencedColumnName = "id") // This will map the 'rol_id' column in the database to the Role entity
+    @JoinColumn(name = "rol_id", referencedColumnName = "id")
     private Role role;
+
+
+    public Resource(String name, String role, String activity, int dni){
+        if (dni <= 0){
+            throw new IllegalArgumentException("DNI is not valid");
+        }
+        if(name.isEmpty()){
+            throw new IllegalArgumentException("name shouldnt be empty");
+        }
+        if(role.isEmpty()){
+            throw new IllegalArgumentException("role shouldnt be empty");
+        }
+        if(activity.isEmpty()){
+            throw new IllegalArgumentException("activity shouldnt be empty");
+        }
+        this.nombre = name;
+        this.role = new Role(activity, role);
+        this.dni = dni;
+    }
+
+
 }

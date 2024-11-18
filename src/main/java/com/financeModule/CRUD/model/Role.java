@@ -29,4 +29,8 @@ public class Role {
     private String experiencia;
 
 
+    Role(String actividad, String tipoRol){
+        this.nombre = actividad;
+        this.experiencia = tipoRol;
+    }
 }
