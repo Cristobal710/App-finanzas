@@ -6,46 +6,36 @@ import jakarta.persistence.*;
 import lombok.*;
 
 import java.util.HashSet;
-import java.util.Objects;
 import java.util.Set;
 
 @Entity
-@Table(name="Projects")
+@Table(name="Resources")
 @NoArgsConstructor
 @AllArgsConstructor
 @Setter
 @Getter
 @JsonIgnoreProperties(ignoreUnknown = true)
 @ToString
-public class Project {
-
+public class Resource {
     @Id
     @Column(name = "id")
-    @JsonProperty("id")
     private String id;
 
     @Column(name = "nombre")
-    @JsonProperty("nombre")
     private String nombre;
 
-    @Column(name = "descripcion", length = 1000)
-    @JsonProperty("descripcion")
-    private String descripcion;
+    @Column(name = "apellido")
+    private String apellido;
+
+    @Column(name = "dni")
+    private int dni;
 
 
+    @Column(name = "IdRol")
+    @JsonProperty("rolId")
+    private String IdRol;  // This is the foreign key to Role
 
-    public Boolean hasSameId(String id){
-        return (Objects.equals(id, this.id));
-    }
-
-    public Object getId() {
-        return id;
-    }
-
-
+    @ManyToOne(fetch = FetchType.EAGER)
+    @JoinColumn(name = "rol_id", referencedColumnName = "id") // This will map the 'rol_id' column in the database to the Role entity
+    private Role role;
 }
-
-
-
-
-

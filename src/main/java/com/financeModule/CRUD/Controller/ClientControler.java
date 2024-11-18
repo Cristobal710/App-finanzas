@@ -27,65 +27,27 @@ public class ClientControler {
 
     @GetMapping("/getAllClients")
     public ResponseEntity<List<Client>> getAllClients(){
-        try {
-            List<Client> ClientsList = new ArrayList<>();
-            clientRepo.findAll().forEach(ClientsList::add);
-
-            if (ClientsList.isEmpty()) {
-                return new ResponseEntity<>(HttpStatus.NO_CONTENT);
-            }
-
-            return new ResponseEntity<>(ClientsList , HttpStatus.OK);
-        } catch (Exception e) {
-            return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
-        }
+        return clientService.getAllClients();
     }
 
     @GetMapping("/getClientWithID/{id}")
     public ResponseEntity<Client> getClientWithID(@PathVariable Long id) {
-        Optional<Client> clientData = clientRepo.findById(id);
-
-        if (clientData.isPresent()){
-            return new ResponseEntity<>(clientData.get(), HttpStatus.OK);
-        }
-        return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+        return clientService.getClientWithId(id);
     }
 
     @PostMapping("/addClient")
     public ResponseEntity<Client> addClient(@RequestBody Client client) {
-        Client clientObj = clientRepo.save(client);
-
-        return new ResponseEntity<>(clientObj , HttpStatus.CREATED);
+        return clientService.addClient(client);
     }
 
     @PostMapping("/updateClientWithID/{id}")
     public ResponseEntity<Client> updateClientWithID(@PathVariable Long id, @RequestBody Client newClientData) {
-        Optional<Client> oldClientData = clientRepo.findById(id);
-
-        if (oldClientData.isPresent()){
-            Client client = oldClientData.get();
-            client.setNombreCliente(newClientData.getNombreCliente());
-
-            Client clientObj = clientRepo.save(client);
-            return new ResponseEntity<>(clientObj, HttpStatus.OK);
-        }
-
-        return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+        return clientService.updateClientWithID(id, newClientData);
     }
 
 
     @DeleteMapping("/deleteClientWithID/{id}")
     public ResponseEntity<String> deleteClientWithID(@PathVariable Long id) {
-        try {
-
-            clientService.deleteClient(id);
-            return ResponseEntity.ok("Client deleted successfully.");
-        } catch (ClientHasProjectsException e) {
-            // Return 400 Bad Request if client has associated projects
-            return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(e.getMessage());
-        } catch (RuntimeException e) {
-            // Return 404 Not Found if client doesn't exist
-            return ResponseEntity.status(HttpStatus.NOT_FOUND).body(e.getMessage());
-        }
+        return clientService.deleteClient(id);
     }
 }
