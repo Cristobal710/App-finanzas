@@ -1,6 +1,7 @@
 package model;
 
 import com.financeModule.CRUD.model.Project;
+import io.cucumber.java.en.And;
 import io.cucumber.java.en.Given;
 import io.cucumber.java.en.Then;
 import io.cucumber.java.en.When;
@@ -12,7 +13,7 @@ public class ProjectSteps {
     private Project project;
     private Boolean operationResult;
     private int hoursRemaining;
-
+    private double amountCharged;
 
     @Given("I accept a project thats gonna take {int} hours to complete, worth {double} and from the client {string}")
     public void iAcceptAProjectThatsGonnaTakeHoursToCompleteWorthAndFromTheClient(int hoursToComplete, double payment, String client) {
@@ -52,5 +53,27 @@ public class ProjectSteps {
     @Given("I have no projects currently")
     public void iHaveNoProjectsCurrently() {
         project = null;
+    }
+
+    @When("I charge the client {int} hours into the project for the work done")
+    public void iChargeTheClientWhenHoursIntoTheProjectForTheWorkDone(int hoursWorked) {
+        try{
+            this.amountCharged = project.calculateBillForHoursWorked(hoursWorked);
+            this.hoursRemaining = (project.getHoursToComplete() - hoursWorked);
+        } catch (IllegalCallerException e){
+            operationResult = false;
+        }
+
+    }
+
+    @Then("the bill should be of {double} and the hours remaining should be {int}")
+    public void theBillShouldBeOfAndTheHoursRemainingShouldBe(double bill, int hoursRemaining) {
+        assertEquals(bill, this.amountCharged);
+        assertEquals(hoursRemaining, this.hoursRemaining);
+    }
+
+    @And("its a project of deed")
+    public void projectOfDeed() {
+        project.setProjectOfDeed(true);
     }
 }

@@ -36,6 +36,7 @@ public class Project {
     private double projectValue;
     private String client;
     private Boolean projectFinished;
+    private Boolean projectOfDeed;
 
     public Project(String clientName, int hoursToComplete, double projectValue){
         if (hoursToComplete <= 0){
@@ -51,6 +52,13 @@ public class Project {
         this.projectValue = projectValue;
         this.client = clientName;
         this.projectFinished = false;
+        this.projectOfDeed = false;
+    }
+    public double calculateBillForHoursWorked(int hoursWorked){
+        if (projectOfDeed) {
+            return (projectValue/HoursToComplete) * hoursWorked;
+        }
+        throw new IllegalCallerException();
     }
 }
 
