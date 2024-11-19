@@ -15,6 +15,7 @@ public class ProjectSteps {
     private int hoursRemaining;
     private double amountCharged;
     private double costOfMonth;
+    private double roi;
 
     @Given("I accept a project thats gonna take {int} hours to complete, worth {double} and from the client {string}")
     public void iAcceptAProjectThatsGonnaTakeHoursToCompleteWorthAndFromTheClient(int hoursToComplete, double payment, String client) {
@@ -92,5 +93,33 @@ public class ProjectSteps {
     @Then("the report should say the project's monthly cost is of {double}")
     public void theReportShouldSayTheProjectSMonthlyCostIsOf(double amount) {
         assertEquals(amount, this.costOfMonth);
+    }
+
+    @And("the final gaining of the project is {double}")
+    public void theFinalGainingOfTheProjectIs(double gainings) {
+        project.setProjectGainings(gainings);
+    }
+
+    @When("I ask for the ROI of said project")
+    public void iAskForTheROIOfSaidProject() {
+        try {
+            this.roi = project.calculateROI();
+        } catch (Exception e) {
+            operationResult = false;
+        }
+
+    }
+
+    @Then("the ROI of the project is {double}")
+    public void theROIOfTheProjectIs(double finalAmount) {
+        assertEquals(finalAmount, this.roi);
+    }
+
+    @Given("a project that gave {double} on gainings and costs {double}")
+    public void aProjectThatGaveOnGainingsAndCosts(int arg0, int arg1, int arg2, int arg3) {
+    }
+
+    @Given("a project that hasn't finished")
+    public void aProjectThatHasnTFinished() {
     }
 }

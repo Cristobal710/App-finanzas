@@ -5,10 +5,6 @@ import com.fasterxml.jackson.annotation.JsonProperty;
 import jakarta.persistence.*;
 import lombok.*;
 
-import java.util.HashSet;
-import java.util.Objects;
-import java.util.Set;
-
 import static java.lang.Math.round;
 
 @Entity
@@ -35,7 +31,8 @@ public class Project {
     private String descripcion;
 
     private int HoursToComplete;
-    private double projectValue;
+    private double projectCost;
+    private double projectGainings;
     private String client;
     private Boolean projectFinished;
     private Boolean projectOfDeed;
@@ -55,7 +52,7 @@ public class Project {
             throw new IllegalArgumentException("project value should be positive");
         }
         this.HoursToComplete = hoursToComplete;
-        this.projectValue = projectValue;
+        this.projectCost = projectValue;
         this.client = clientName;
         this.projectFinished = false;
         this.projectOfDeed = false;
@@ -65,13 +62,17 @@ public class Project {
 
     public double calculateBillForHoursWorked(int hoursWorked){
         if (projectOfDeed) {
-            return (projectValue/HoursToComplete) * hoursWorked;
+            return (projectCost /HoursToComplete) * hoursWorked;
         }
         throw new IllegalCallerException();
     }
 
     public double calculateCostOfProjectForMonths(int monthsToCalculate, int amountOfPeopleWorkingOnProject) {
-        return (((projectValue/HoursToComplete) * WORK_HOURS_ON_MONTH) * amountOfPeopleWorkingOnProject) * monthsToCalculate; //assums people have the same salary.
+        return (((projectCost /HoursToComplete) * WORK_HOURS_ON_MONTH) * amountOfPeopleWorkingOnProject) * monthsToCalculate; //assums people have the same salary.
+    }
+
+    public double calculateROI() {
+        return projectGainings - projectCost;
     }
 }
 
