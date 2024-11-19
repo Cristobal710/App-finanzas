@@ -21,5 +21,18 @@ public class Client {
 
     private String nombreCliente;
 
+    private int projects;
+    private int projectsDelayed;
 
+    public Client(String name, int amountOfProjects){
+        if(name.isEmpty()){
+            throw new IllegalArgumentException();
+        }
+        if (amountOfProjects < 0){
+            throw new IllegalArgumentException();
+        }
+        this.nombreCliente = name;
+        this.projects = amountOfProjects;
+        this.projectsDelayed = 0;
+    }
 }

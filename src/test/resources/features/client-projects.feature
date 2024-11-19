@@ -15,6 +15,7 @@ Feature: Clients projects
     Then the operation should be denied
 
   Scenario: Successfully ask for the state of a project
-    Given a client with name "Pepe Mujica" and 2 projects currently being done for him with one being delayed
+    Given a client with name "Pepe Mujica" and 2 projects currently being done for him
+    And one of them is delayed
     When I ask for the projects that the client "Pepe Mujica" has
     Then there should be 2 projects at his name and 1 should be delayed
