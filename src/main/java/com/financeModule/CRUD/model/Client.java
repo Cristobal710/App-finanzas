@@ -4,6 +4,8 @@ package com.financeModule.CRUD.model;
 import jakarta.persistence.*;
 import lombok.*;
 
+import java.util.ArrayList;
+
 @Entity
 @Table(name="clientes")
 @NoArgsConstructor
