@@ -115,11 +115,24 @@ public class ProjectSteps {
         assertEquals(finalAmount, this.roi);
     }
 
-    @Given("a project that gave {double} on gainings and costs {double}")
-    public void aProjectThatGaveOnGainingsAndCosts(int arg0, int arg1, int arg2, int arg3) {
+    @And("its making {double} on profit up until that point")
+    public void itsMakingOnProfitAfterHoursIntoTheProject(double gainings) {
+        project.setProjectGainings(gainings);
+
     }
 
-    @Given("a project that hasn't finished")
-    public void aProjectThatHasnTFinished() {
+    @When("I ask for the state of the project {int} hours into the project")
+    public void iAskForTheStateOfTheProject(int hoursWorked) {
+        try{
+            this.roi = project.calculateROIAfterHoursWorked(hoursWorked);
+        } catch (Exception e) {
+            operationResult = false;
+        }
+
+    }
+
+    @Then("the profit of said project should be {double}")
+    public void theProfitOfSaidProjectShouldBe(double finalAmount) {
+        assertEquals(finalAmount, this.roi);
     }
 }

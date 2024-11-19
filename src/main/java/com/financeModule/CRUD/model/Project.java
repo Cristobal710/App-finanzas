@@ -74,6 +74,10 @@ public class Project {
     public double calculateROI() {
         return projectGainings - projectCost;
     }
+
+    public double calculateROIAfterHoursWorked(int hoursWorked) {
+        return projectGainings - ((projectCost/HoursToComplete) * hoursWorked);
+    }
 }
 
 
