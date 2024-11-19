@@ -32,17 +32,26 @@ public class Project {
     @JsonProperty("descripcion")
     private String descripcion;
 
+    private int HoursToComplete;
+    private double projectValue;
+    private String client;
+    private Boolean projectFinished;
 
-
-    public Boolean hasSameId(String id){
-        return (Objects.equals(id, this.id));
+    public Project(String clientName, int hoursToComplete, double projectValue){
+        if (hoursToComplete <= 0){
+            throw new IllegalArgumentException("hours should be bigger than cero");
+        }
+        if(clientName.isEmpty()){
+            throw new IllegalArgumentException("name shouldnt be empty");
+        }
+        if(projectValue <= 0){
+            throw new IllegalArgumentException("project value should be positive");
+        }
+        this.HoursToComplete = hoursToComplete;
+        this.projectValue = projectValue;
+        this.client = clientName;
+        this.projectFinished = false;
     }
-
-    public Object getId() {
-        return id;
-    }
-
-
 }
 
 
