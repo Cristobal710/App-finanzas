@@ -2,6 +2,7 @@ plugins {
 	id("java")
 	id("org.springframework.boot") version "3.3.5"
 	id("io.spring.dependency-management") version "1.1.6"
+
 }
 
 group = "com.financeModule"
@@ -44,23 +45,14 @@ tasks.withType<ProcessResources> {
 	duplicatesStrategy = DuplicatesStrategy.EXCLUDE // You can also use INCLUDE, WARN, or FAIL
 }
 
-
 sourceSets {
-	test {
-		java.srcDirs("src/test/java")
-		resources.srcDirs("src/test/resources")
+	named("test") {
+		java.srcDirs("src/test/java")  // Include all Java files, including step definitions
+		resources.srcDirs("src/test/resources")  // Location of feature files
 	}
 }
 tasks.test {
 	dependsOn(tasks.classes)  // Ensure testClasses are compiled before running tests
 }
 
-//task("runCucumberCli", type = JavaExec::class) {
-//	mainClass.set("io.cucumber.core.cli.Main")
-//	classpath = sourceSets.test.get().runtimeClasspath
-//	args = listOf(
-//		"classpath:features",        // Path to feature files
-//		"--glue", "model", // Path to step definitions
-//		"--plugin", "pretty"         // Optional: plugin for pretty output
-//	)
-//}
+

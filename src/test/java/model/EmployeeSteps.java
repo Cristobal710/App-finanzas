@@ -1,17 +1,14 @@
 package model;
 
-import com.financeModule.CRUD.Services.ResourceService;
 import com.financeModule.CRUD.model.Resource;
 import com.financeModule.CRUD.model.Role;
-import io.cucumber.java.en.And;
 import io.cucumber.java.en.Given;
 import io.cucumber.java.en.Then;
 import io.cucumber.java.en.When;
 
-import static org.junit.jupiter.api.Assertions.assertEquals;
-import static org.junit.jupiter.api.Assertions.assertFalse;
+import static org.junit.jupiter.api.Assertions.*;
 
-public class ResourceSteps {
+public class EmployeeSteps {
 
     private Resource resource;
     private Role role;
@@ -31,7 +28,11 @@ public class ResourceSteps {
 
     @When("I ask for the report of the employee {string}")
     public void iAskForTheReportOfTheEmployee(String employee) {
-        this.role = resource.getRole();
+        if (employee.equals(resource.getNombre())){
+            this.role = resource.getRole();
+            return;
+        }
+        operationResult = false;
     }
 
     @Then("the report should say the employee {string} role is {string} and his activity is {string}")
@@ -46,4 +47,9 @@ public class ResourceSteps {
         assertFalse(operationResult);
     }
 
+    @Then("the report should say the employee {string} costs {double} per hour")
+    public void theReportShouldSayTheEmployeeCostsPerHour(String name, double wage) {
+        assertTrue(name.equals(resource.getNombre()));
+        assertEquals(wage, role.getWage());
+    }
 }
