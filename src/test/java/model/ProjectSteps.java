@@ -14,6 +14,7 @@ public class ProjectSteps {
     private Boolean operationResult;
     private int hoursRemaining;
     private double amountCharged;
+    private double costOfMonth;
 
     @Given("I accept a project thats gonna take {int} hours to complete, worth {double} and from the client {string}")
     public void iAcceptAProjectThatsGonnaTakeHoursToCompleteWorthAndFromTheClient(int hoursToComplete, double payment, String client) {
@@ -75,5 +76,21 @@ public class ProjectSteps {
     @And("its a project of deed")
     public void projectOfDeed() {
         project.setProjectOfDeed(true);
+    }
+
+    @When("I ask for the monthly report after the first month has finished and {int} people are working on the project")
+    public void iAskForTheMonthlyReportAfterTheFirstMonthHasFinished(int amountOfPeopleWorkingOnProject) {
+        try{
+            this.costOfMonth = project.calculateCostOfProjectForMonths(1, amountOfPeopleWorkingOnProject);
+        } catch (Exception e) {
+            operationResult = false;
+        }
+
+    }
+
+
+    @Then("the report should say the project's monthly cost is of {double}")
+    public void theReportShouldSayTheProjectSMonthlyCostIsOf(double amount) {
+        assertEquals(amount, this.costOfMonth);
     }
 }

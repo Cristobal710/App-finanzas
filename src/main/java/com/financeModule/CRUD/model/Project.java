@@ -9,6 +9,8 @@ import java.util.HashSet;
 import java.util.Objects;
 import java.util.Set;
 
+import static java.lang.Math.round;
+
 @Entity
 @Table(name="Projects")
 @NoArgsConstructor
@@ -37,6 +39,10 @@ public class Project {
     private String client;
     private Boolean projectFinished;
     private Boolean projectOfDeed;
+    private int monthsToComplete;
+
+    public static final int WORK_HOURS_ON_MONTH = 160;
+
 
     public Project(String clientName, int hoursToComplete, double projectValue){
         if (hoursToComplete <= 0){
@@ -53,12 +59,19 @@ public class Project {
         this.client = clientName;
         this.projectFinished = false;
         this.projectOfDeed = false;
+        this.monthsToComplete = round((float) hoursToComplete / 160);
     }
+
+
     public double calculateBillForHoursWorked(int hoursWorked){
         if (projectOfDeed) {
             return (projectValue/HoursToComplete) * hoursWorked;
         }
         throw new IllegalCallerException();
+    }
+
+    public double calculateCostOfProjectForMonths(int monthsToCalculate, int amountOfPeopleWorkingOnProject) {
+        return (((projectValue/HoursToComplete) * WORK_HOURS_ON_MONTH) * amountOfPeopleWorkingOnProject) * monthsToCalculate; //assums people have the same salary.
     }
 }
 
