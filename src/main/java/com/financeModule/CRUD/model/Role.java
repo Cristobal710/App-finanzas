@@ -5,10 +5,6 @@ import lombok.*;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.fasterxml.jackson.annotation.JsonProperty;
 
-
-
-@Entity
-@Table(name = "roles")
 @NoArgsConstructor
 @AllArgsConstructor
 @Setter

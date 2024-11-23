@@ -1,11 +1,9 @@
 package com.financeModule.CRUD.Services;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
-import com.financeModule.CRUD.model.Project;
 import com.financeModule.CRUD.model.Resource;
 import com.financeModule.CRUD.model.Role;
 import com.financeModule.CRUD.repository.ResourceRepo;
-import com.financeModule.CRUD.repository.RoleRepo;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -25,7 +23,7 @@ public class ResourceService {
     private ResourceRepo resourceRepo;
 
     @Autowired
-    private RoleRepo roleRepo;
+    private RoleService roleService;
 
     public void getResourcesFromURL() {
         String url = "https://anypoint.mulesoft.com/mocking/api/v1/sources/exchange/assets/32c8fe38-22a6-4fbb-b461-170dfac937e4/recursos-api/1.0.1/m/recursos";
@@ -45,20 +43,8 @@ public class ResourceService {
 
                 ObjectMapper objectMapper = new ObjectMapper();
                 List<Resource> resources = objectMapper.readValue(responseBody, objectMapper.getTypeFactory().constructCollectionType(List.class, Resource.class));
-
-                for (Resource resourceObj : resources) {
-
-                    String roleId = resourceObj.getIdRol();
-
-                    Optional<Role> role = roleRepo.findById(roleId);
-
-                    if (role.isPresent()){
-                        resourceObj.setRole(role.get());
-                    }
-
-                    resourceRepo.save(resourceObj);
+                    resourceRepo.saveAll(resources);
                 }
-            }
 
         } catch (IOException | InterruptedException ignored) {
 

@@ -2,13 +2,10 @@ package com.financeModule.CRUD.Services;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.financeModule.CRUD.model.Role;
-import com.financeModule.CRUD.repository.RoleRepo;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 
-import java.io.IOException;
 import java.net.URI;
 import java.net.http.HttpClient;
 import java.net.http.HttpRequest;
@@ -18,10 +15,7 @@ import java.util.List;
 @Service
 public class RoleService {
 
-    @Autowired
-    private RoleRepo roleRepo;
-
-    public void getRolesFromURL() {
+    public ResponseEntity<List<Role>> getRolesFromURL() {
         String url = "https://anypoint.mulesoft.com/mocking/api/v1/sources/exchange/assets/32c8fe38-22a6-4fbb-b461-170dfac937e4/roles-api/1.0.0/m/roles";
 
         try {
@@ -39,15 +33,16 @@ public class RoleService {
 
                 ObjectMapper objectMapper = new ObjectMapper();
                 List<Role> roles = objectMapper.readValue(responseBody, objectMapper.getTypeFactory().constructCollectionType(List.class, Role.class));
-                roleRepo.saveAll(roles);
+                return new ResponseEntity<>(roles, HttpStatus.OK);
             }
 
-        } catch (IOException | InterruptedException ignored) {
-
+        } catch (Exception ignored) {
+            return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
         }
+        return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
     }
     public ResponseEntity<List<Role>> getAllRoles() {
-        List<Role> roles = roleRepo.findAll();
-        return new ResponseEntity<>(roles, HttpStatus.OK);
+        ResponseEntity<List<Role>> roles = getRolesFromURL();
+        return roles;
     }
 }

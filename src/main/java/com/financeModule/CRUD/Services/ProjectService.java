@@ -41,7 +41,7 @@ public class ProjectService {
             }
 
         } catch (Exception ignored) {
-
+            return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
         }
         return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
     }

@@ -21,4 +21,6 @@ public class ResourceController {
     public ResponseEntity<List<Resource>> getAllResources() {
         return resourceService.getAllResources();
     }
+
+
 }

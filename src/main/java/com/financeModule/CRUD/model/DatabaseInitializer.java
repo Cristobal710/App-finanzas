@@ -11,17 +11,12 @@ public class DatabaseInitializer implements ApplicationRunner {
 
     private final ResourceService resourceService;
 
-    private final RoleService roleService;
-
-    public DatabaseInitializer(ResourceService resourceService, RoleService roleService) {
+    public DatabaseInitializer(ResourceService resourceService) {
         this.resourceService = resourceService;
-        this.roleService = roleService;
     }
 
     @Override
     public void run(ApplicationArguments args) throws Exception {
-
-        roleService.getRolesFromURL();
 
         resourceService.getResourcesFromURL();
     }

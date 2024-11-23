@@ -35,9 +35,7 @@ public class Resource {
     @JsonProperty("rolId")
     private String IdRol;  // This is the foreign key to Role
 
-    @ManyToOne(fetch = FetchType.EAGER)
-    @JoinColumn(name = "rol_id", referencedColumnName = "id")
-    private Role role;
+
 
 
     public Resource(String name, String role, String activity, int dni){
@@ -54,7 +52,7 @@ public class Resource {
             throw new IllegalArgumentException("activity shouldnt be empty");
         }
         this.nombre = name;
-        this.role = new Role(activity, role);
+        //this.role = new Role(activity, role);
         this.dni = dni;
     }
 
