@@ -21,4 +21,6 @@ public class CostoMensualDeActividad {
     private String experienciaAsociada;
 
     private String actividadAsociada;
+
+    private int costoDeLaActividad;
 }
