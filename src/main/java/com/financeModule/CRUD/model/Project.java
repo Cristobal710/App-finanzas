@@ -7,8 +7,6 @@ import lombok.*;
 
 import static java.lang.Math.round;
 
-@Entity
-@Table(name="Projects")
 @NoArgsConstructor
 @AllArgsConstructor
 @Setter
