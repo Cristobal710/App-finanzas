@@ -4,7 +4,6 @@ import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import jakarta.persistence.*;
 import lombok.*;
-
 import java.util.HashSet;
 import java.util.Set;
 
@@ -35,7 +34,7 @@ public class Resource {
     @JsonProperty("rolId")
     private String IdRol;  // This is the foreign key to Role
 
-
+    //private Role role;
 
 
     public Resource(String name, String role, String activity, int dni){

@@ -29,7 +29,7 @@ public class EmployeeSteps {
     @When("I ask for the report of the employee {string}")
     public void iAskForTheReportOfTheEmployee(String employee) {
         if (employee.equals(resource.getNombre())){
-            this.role = resource.getRole();
+            //this.role = resource.getRole();
             return;
         }
         operationResult = false;
