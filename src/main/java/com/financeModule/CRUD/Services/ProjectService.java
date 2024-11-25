@@ -58,6 +58,7 @@ public class ProjectService {
                 .filter(p -> p.getId().equals(id))
                 .findFirst();
         if (project.isPresent()){
+
             return new ResponseEntity<>(project.get(), HttpStatus.OK);
         }
         return new ResponseEntity<>(HttpStatus.NOT_FOUND);
