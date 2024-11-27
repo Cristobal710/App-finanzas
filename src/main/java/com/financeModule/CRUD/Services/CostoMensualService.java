@@ -9,6 +9,9 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 
+import java.util.ArrayList;
+import java.util.List;
+
 @Service
 public class CostoMensualService {
         @Autowired
@@ -18,5 +21,16 @@ public class CostoMensualService {
     public ResponseEntity<CostoMensualDeActividad> addCost(CostoMensualDeActividad costo) {
         CostoMensualDeActividad costoObj = costoMensualRepo.save(costo);
         return new ResponseEntity<>(costoObj , HttpStatus.CREATED);
+    }
+
+    public ResponseEntity<List<CostoMensualDeActividad>> getCostos() {
+        List<CostoMensualDeActividad> CostosList = new ArrayList<>();
+        CostosList.addAll(costoMensualRepo.findAll());
+
+        if (CostosList.isEmpty()) {
+            return new ResponseEntity<>(HttpStatus.NO_CONTENT);
+        }
+
+        return new ResponseEntity<>(CostosList, HttpStatus.OK);
     }
 }
