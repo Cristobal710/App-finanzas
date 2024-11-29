@@ -9,5 +9,5 @@ import java.util.List;
 
 @Repository
 public interface CostoMensualRepo extends JpaRepository<CostoMensualDeActividad, Long> {
-    List<CostoMensualDeActividad> findByMes(int mes);
+    List<CostoMensualDeActividad> findByMes(String mes);
 }

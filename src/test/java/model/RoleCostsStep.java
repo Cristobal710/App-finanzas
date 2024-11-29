@@ -50,7 +50,7 @@ public class RoleCostsStep {
         this.costoMensualService = new CostoMensualService();
         this.costoMensualService.setCostoMensualRepo(new CostoMensualRepo() {
             @Override
-            public List<CostoMensualDeActividad> findByMes(int mes) {
+            public List<CostoMensualDeActividad> findByMes(String mes) {
                 return List.of();
             }
 
