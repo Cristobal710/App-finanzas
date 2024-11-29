@@ -2,11 +2,13 @@ package com.financeModule.CRUD.Controller;
 
 
 import com.financeModule.CRUD.Services.ProjectService;
+import com.financeModule.CRUD.model.Period;
 import com.financeModule.CRUD.model.Project;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RestController;
 
 import java.util.List;
@@ -25,5 +27,10 @@ public class ProjectController {
     @GetMapping("/getProjectOfId/{id}")
     public ResponseEntity<Project> getTasksOfProject(@PathVariable String id) {
         return projectService.getProjectOfId(id);
+    }
+
+    @GetMapping("/getProjectsWithPeriod/")
+    public ResponseEntity<List<Project>> getProjectsWithPeriod(@RequestBody Period periodo){
+        return projectService.getProjectsWithPeriod(periodo.getFrom(), periodo.getTo());
     }
 }

@@ -2,7 +2,10 @@ package com.financeModule.CRUD.Services;
 
 
 import com.fasterxml.jackson.databind.ObjectMapper;
+import com.financeModule.CRUD.model.CostoMensualDeActividad;
 import com.financeModule.CRUD.model.Project;
+import com.financeModule.CRUD.repository.CostoMensualRepo;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
@@ -12,12 +15,16 @@ import java.net.URI;
 import java.net.http.HttpClient;
 import java.net.http.HttpRequest;
 import java.net.http.HttpResponse;
+import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 import java.util.Optional;
 
 
 @Service
 public class ProjectService {
+    @Autowired
+    private CostoMensualRepo costoMensualRepo;
 
     public ResponseEntity<List<Project>> getProjectsFromURL() {
         String url = "https://anypoint.mulesoft.com/mocking/api/v1/sources/exchange/assets/32c8fe38-22a6-4fbb-b461-170dfac937e4/proyectos-api/1.0.0/m/proyectos";
@@ -48,6 +55,27 @@ public class ProjectService {
 
     public ResponseEntity<List<Project>> getAllProjects() {
         ResponseEntity<List<Project>> projects = getProjectsFromURL();
+        for (Project project : projects.getBody()) {
+            ArrayList<Integer> costos = new ArrayList<>();
+
+            for (int i = 1; i <= 12; i++) {
+
+                List<CostoMensualDeActividad> costosMes = costoMensualRepo.findByMes(i);
+
+                int totalCostForMonth = 0;
+
+                for (CostoMensualDeActividad costo : costosMes) {
+                    //getLoggedHours(project.getId(), costo.getActividadAsociada(), costo.getExperienciaAsociada(), i);
+                    int loggedHours = 20;
+
+                    totalCostForMonth += loggedHours * costo.getCostoDeLaActividad();
+
+                }
+                costos.add(totalCostForMonth);
+            }
+
+            project.setCostosPorMes(costos);
+        }
         return projects;
     }
 
@@ -62,6 +90,18 @@ public class ProjectService {
             return new ResponseEntity<>(project.get(), HttpStatus.OK);
         }
         return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+    }
+
+    public ResponseEntity<List<Project>> getProjectsWithPeriod(int from, int to) {
+        ResponseEntity<List<Project>> projects = getProjectsFromURL();
+
+        for (Project project : projects.getBody()){
+            ArrayList<Integer> costos = new ArrayList<>();
+            for (int i = from; from < to ; i++){
+                //hacer request al otro back que me devuelva las horas registradas de cada actividad
+            }
+        }
+        return projects;
     }
 }
 
