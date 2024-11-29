@@ -24,6 +24,12 @@ public class CostoMensualController {
         return costoMensualService.addCost(costo);
     }
 
+    @PostMapping("/addCostoMensualList")
+    public ResponseEntity<List<CostoMensualDeActividad>> addCostoMensualList(@RequestBody List<CostoMensualDeActividad> costos) {
+        return costoMensualService.addCosts(costos);
+    }
+
+
     @GetMapping("/getAllCostos")
     public ResponseEntity<List<CostoMensualDeActividad>> getCostosMensuales() {
         return costoMensualService.getCostos();

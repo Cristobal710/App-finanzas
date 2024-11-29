@@ -22,6 +22,21 @@ public class CostoMensualService {
         return new ResponseEntity<>(costoObj , HttpStatus.CREATED);
     }
 
+    public ResponseEntity<List<CostoMensualDeActividad>> addCosts(List<CostoMensualDeActividad> costos) {
+        List<CostoMensualDeActividad> savedCostos = new ArrayList<>();
+
+        for (CostoMensualDeActividad costo : costos) {
+            CostoMensualDeActividad savedCosto = costoMensualRepo.save(costo);
+            savedCostos.add(savedCosto);
+        }
+
+        return new ResponseEntity<>(savedCostos, HttpStatus.CREATED);
+    }
+
+
+
+
+
     public ResponseEntity<List<CostoMensualDeActividad>> getCostos() {
         List<CostoMensualDeActividad> CostosList = new ArrayList<>();
         CostosList.addAll(costoMensualRepo.findAll());
