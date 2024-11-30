@@ -8,7 +8,7 @@ public class HorasRegistradasService {
 
     private int horasRegistradas;
 
-    public void setHorasRegistradas(int horas){
+    public void setHorasRegistradas(int horas) {
         horasRegistradas = horas;
     }
 
@@ -18,7 +18,7 @@ public class HorasRegistradasService {
         return horasRegistradas;
     }
 
-    public int obtenerHorasRegistradas(String anio , String mes, String nombreProyecto){
+    public int obtenerHorasRegistradas(String anio, String mes, String nombreProyecto) {
         return horasRegistradas;
     }
 }

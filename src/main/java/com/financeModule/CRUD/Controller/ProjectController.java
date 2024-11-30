@@ -30,7 +30,7 @@ public class ProjectController {
     }
 
     @GetMapping("/getProjectsWithPeriod/")
-    public ResponseEntity<List<Project>> getProjectsWithPeriod(@RequestBody Period periodo){
+    public ResponseEntity<List<Project>> getProjectsWithPeriod(@RequestBody Period periodo) {
         return projectService.getProjectsWithPeriod(periodo.getFrom(), periodo.getTo());
     }
 }

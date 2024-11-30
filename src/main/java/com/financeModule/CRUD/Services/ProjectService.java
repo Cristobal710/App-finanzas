@@ -26,19 +26,32 @@ public class ProjectService {
 
     public String getMonthName(int monthNumber) {
         switch (monthNumber) {
-            case 1:  return "Enero";
-            case 2:  return "Febrero";
-            case 3:  return "Marzo";
-            case 4:  return "Abril";
-            case 5:  return "Mayo";
-            case 6:  return "Junio";
-            case 7:  return "Julio";
-            case 8:  return "Agosto";
-            case 9:  return "Septiembre";
-            case 10: return "Octubre";
-            case 11: return "Noviembre";
-            case 12: return "Diciembre";
-            default: return "Invalid month";
+            case 1:
+                return "Enero";
+            case 2:
+                return "Febrero";
+            case 3:
+                return "Marzo";
+            case 4:
+                return "Abril";
+            case 5:
+                return "Mayo";
+            case 6:
+                return "Junio";
+            case 7:
+                return "Julio";
+            case 8:
+                return "Agosto";
+            case 9:
+                return "Septiembre";
+            case 10:
+                return "Octubre";
+            case 11:
+                return "Noviembre";
+            case 12:
+                return "Diciembre";
+            default:
+                return "Invalid month";
         }
     }
 
@@ -104,7 +117,7 @@ public class ProjectService {
         Optional<Project> project = projects.getBody().stream()
                 .filter(p -> p.getId().equals(id))
                 .findFirst();
-        if (project.isPresent()){
+        if (project.isPresent()) {
 
             return new ResponseEntity<>(project.get(), HttpStatus.OK);
         }
@@ -114,9 +127,9 @@ public class ProjectService {
     public ResponseEntity<List<Project>> getProjectsWithPeriod(int from, int to) {
         ResponseEntity<List<Project>> projects = getProjectsFromURL();
 
-        for (Project project : projects.getBody()){
+        for (Project project : projects.getBody()) {
             ArrayList<Integer> costos = new ArrayList<>();
-            for (int i = from; from < to ; i++){
+            for (int i = from; from < to; i++) {
                 //hacer request al otro back que me devuelva las horas registradas de cada actividad
             }
         }

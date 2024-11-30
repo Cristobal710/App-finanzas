@@ -41,6 +41,7 @@ public class RoleService {
         }
         return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
     }
+
     public ResponseEntity<List<Role>> getAllRoles() {
         ResponseEntity<List<Role>> roles = getRolesFromURL();
         return roles;

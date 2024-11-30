@@ -4,7 +4,7 @@ import jakarta.persistence.*;
 import lombok.*;
 
 @Entity
-@Table(name="CostoMensual")
+@Table(name = "CostoMensual")
 @NoArgsConstructor
 @AllArgsConstructor
 @Setter
@@ -26,7 +26,7 @@ public class CostoMensualDeActividad {
 
     private int costoDeLaActividad;
 
-    public CostoMensualDeActividad(String anio, String mes, String experienciaAsociada, String actividadAsociada, int costoDeLaActividad){
+    public CostoMensualDeActividad(String anio, String mes, String experienciaAsociada, String actividadAsociada, int costoDeLaActividad) {
         if (anio == null || anio.isEmpty()) {
             throw new IllegalArgumentException("El año no puede estar vacío.");
         }

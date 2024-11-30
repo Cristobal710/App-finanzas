@@ -13,13 +13,13 @@ import java.util.List;
 
 @Service
 public class CostoMensualService {
-        @Autowired
-        private CostoMensualRepo costoMensualRepo;
+    @Autowired
+    private CostoMensualRepo costoMensualRepo;
 
 
     public ResponseEntity<CostoMensualDeActividad> addCost(CostoMensualDeActividad costo) {
         CostoMensualDeActividad costoObj = costoMensualRepo.save(costo);
-        return new ResponseEntity<>(costoObj , HttpStatus.CREATED);
+        return new ResponseEntity<>(costoObj, HttpStatus.CREATED);
     }
 
     public ResponseEntity<List<CostoMensualDeActividad>> addCosts(List<CostoMensualDeActividad> costos) {
@@ -34,9 +34,6 @@ public class CostoMensualService {
     }
 
 
-
-
-
     public ResponseEntity<List<CostoMensualDeActividad>> getCostos() {
         List<CostoMensualDeActividad> CostosList = new ArrayList<>();
         CostosList.addAll(costoMensualRepo.findAll());
@@ -48,7 +45,7 @@ public class CostoMensualService {
         return new ResponseEntity<>(CostosList, HttpStatus.OK);
     }
 
-    public void setCostoMensualRepo(CostoMensualRepo costoMensualRepo){
+    public void setCostoMensualRepo(CostoMensualRepo costoMensualRepo) {
         this.costoMensualRepo = costoMensualRepo;
     }
 }

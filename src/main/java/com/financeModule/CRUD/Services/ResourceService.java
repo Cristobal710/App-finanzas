@@ -40,7 +40,7 @@ public class ResourceService {
                 ObjectMapper objectMapper = new ObjectMapper();
                 List<Resource> resources = objectMapper.readValue(responseBody, objectMapper.getTypeFactory().constructCollectionType(List.class, Resource.class));
                 return new ResponseEntity<>(resources, HttpStatus.OK);
-                }
+            }
 
         } catch (IOException | InterruptedException ignored) {
             return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);

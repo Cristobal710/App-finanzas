@@ -4,11 +4,12 @@ import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import jakarta.persistence.*;
 import lombok.*;
+
 import java.util.HashSet;
 import java.util.Set;
 
 @Entity
-@Table(name="Resources")
+@Table(name = "Resources")
 @NoArgsConstructor
 @AllArgsConstructor
 @Setter
