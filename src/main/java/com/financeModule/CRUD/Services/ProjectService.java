@@ -9,14 +9,13 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
-
-import java.io.IOException;
 import java.net.URI;
 import java.net.http.HttpClient;
 import java.net.http.HttpRequest;
 import java.net.http.HttpResponse;
+import java.net.URLEncoder;
+import java.nio.charset.StandardCharsets;
 import java.util.ArrayList;
-import java.util.Collections;
 import java.util.List;
 import java.util.Optional;
 
@@ -90,17 +89,18 @@ public class ProjectService {
         for (Project project : projects.getBody()) {
             ArrayList<Integer> costos = new ArrayList<>();
 
-            for (int i = 1; i <= 12; i++) {
+            for (int i = 1; i < 13; i++) {
 
                 List<CostoMensualDeActividad> costosMes = costoMensualRepo.findByMes(getMonthName(i));
 
                 int totalCostForMonth = 0;
 
                 for (CostoMensualDeActividad costo : costosMes) {
-                    //getLoggedHours(project.getId(), costo.getActividadAsociada(), costo.getExperienciaAsociada(), i);
-                    int loggedHours = 20;
-
-                    totalCostForMonth += loggedHours * costo.getCostoDeLaActividad();
+                    double horasMes = requestWorkLogs(costo.getActividadAsociada(), costo.getExperienciaAsociada(), 2024, i);
+                    //int loggedHours = 20;
+                    System.out.println("cantidad de horas registradas: " + horasMes);
+                    int unCosto = 200;
+                    totalCostForMonth += (int) (horasMes * unCosto);
 
                 }
                 costos.add(totalCostForMonth);
@@ -130,12 +130,54 @@ public class ProjectService {
         for (Project project : projects.getBody()) {
             ArrayList<Integer> costos = new ArrayList<>();
             for (int i = from; from < to; i++) {
-                //hacer request al otro back que me devuelva las horas registradas de cada actividad
+
+                //double horasMes = requestWorkLogs()
             }
         }
         return projects;
     }
+
+    public double requestWorkLogs(String roleName, String roleExperience, int year, int month){
+
+        System.out.println("Asquing for report: ");
+        try {
+            // Define the base URL and parameters
+            String baseUrl = "https://squad10-2024-2c.onrender.com/work_logs/roles";
+
+            // Encode the parameters to ensure proper encoding for the URL
+            String encodedRoleName = URLEncoder.encode(roleName, StandardCharsets.UTF_8);
+            String encodedRoleExperience = URLEncoder.encode(roleExperience, StandardCharsets.UTF_8);
+            String encodedYear = URLEncoder.encode(String.valueOf(year), StandardCharsets.UTF_8);
+            String encodedMonth = URLEncoder.encode(String.valueOf(month), StandardCharsets.UTF_8);
+
+            // Build the query string
+            String queryString = String.format("role_name=%s&role_experience=%s&year=%s&month=%s",
+                    encodedRoleName, encodedRoleExperience, encodedYear, encodedMonth);
+
+            // Build the full URL with query parameters
+            URI uri = URI.create(baseUrl + "?" + queryString);
+
+            // Create HttpClient and HttpRequest objects
+            HttpClient client = HttpClient.newHttpClient();
+            HttpRequest request = HttpRequest.newBuilder()
+                    .uri(uri)
+                    .GET()
+                    .build();
+
+            // Send the GET request and handle the response
+            HttpResponse<String> response  = client.send(request, HttpResponse.BodyHandlers.ofString());
+            double responseValue = Double.parseDouble(response.body());
+            System.out.println("Request succeeded: " + responseValue);
+            return responseValue;
+
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return 0.0;
+    }
+
 }
+
 
 
 
