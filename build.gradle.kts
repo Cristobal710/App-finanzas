@@ -39,6 +39,9 @@ dependencies {
 	//Cucumber
 	testImplementation ("io.cucumber:cucumber-java:7.4.1")
 	testImplementation ("io.cucumber:cucumber-junit:7.4.1")
+
+	// Swagger
+	implementation("org.springdoc:springdoc-openapi-starter-webmvc-ui:2.1.0")
 }
 
 tasks.withType<ProcessResources> {
