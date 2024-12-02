@@ -97,10 +97,7 @@ public class ProjectService {
 
                 for (CostoMensualDeActividad costo : costosMes) {
                     double horasMes = requestWorkLogs(costo.getActividadAsociada(), costo.getExperienciaAsociada(), 2024, i);
-                    //int loggedHours = 20;
-                    System.out.println("cantidad de horas registradas: " + horasMes);
-                    int unCosto = 200;
-                    totalCostForMonth += (int) (horasMes * unCosto);
+                    totalCostForMonth += (int) (horasMes * costo.getCostoDeLaActividad());
 
                 }
                 costos.add(totalCostForMonth);
@@ -139,7 +136,6 @@ public class ProjectService {
 
     public double requestWorkLogs(String roleName, String roleExperience, int year, int month){
 
-        System.out.println("Asquing for report: ");
         try {
             // Define the base URL and parameters
             String baseUrl = "https://squad10-2024-2c.onrender.com/work_logs/roles";
@@ -166,9 +162,7 @@ public class ProjectService {
 
             // Send the GET request and handle the response
             HttpResponse<String> response  = client.send(request, HttpResponse.BodyHandlers.ofString());
-            double responseValue = Double.parseDouble(response.body());
-            System.out.println("Request succeeded: " + responseValue);
-            return responseValue;
+            return Double.parseDouble(response.body());
 
         } catch (Exception e) {
             e.printStackTrace();
