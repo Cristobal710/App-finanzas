@@ -96,13 +96,11 @@ public class ProjectService {
                 int totalCostForMonth = 0;
 
                 for (CostoMensualDeActividad costo : costosMes) {
-                    double horasMes = requestWorkLogs(costo.getActividadAsociada(), costo.getExperienciaAsociada(), 2024, i);
+                    double horasMes = requestWorkLogs(costo.getActividadAsociada(), costo.getExperienciaAsociada(), 2024, i, project.getId());
                     totalCostForMonth += (int) (horasMes * costo.getCostoDeLaActividad());
-
                 }
                 costos.add(totalCostForMonth);
             }
-
             project.setCostosPorMes(costos);
         }
         return projects;
@@ -134,42 +132,45 @@ public class ProjectService {
         return projects;
     }
 
-    public double requestWorkLogs(String roleName, String roleExperience, int year, int month){
+    public double requestWorkLogs(String roleName, String roleExperience, int year, int month, String projectId) {
 
         try {
-            // Define the base URL and parameters
-            String baseUrl = "https://squad10-2024-2c.onrender.com/work_logs/roles";
 
-            // Encode the parameters to ensure proper encoding for the URL
+            String baseUrl = "https://squad10-2024-2c.onrender.com/work_logs/projects/%s";
+            String formattedUrl = String.format(baseUrl, projectId);
+
+            // Encode the parameters
             String encodedRoleName = URLEncoder.encode(roleName, StandardCharsets.UTF_8);
             String encodedRoleExperience = URLEncoder.encode(roleExperience, StandardCharsets.UTF_8);
             String encodedYear = URLEncoder.encode(String.valueOf(year), StandardCharsets.UTF_8);
             String encodedMonth = URLEncoder.encode(String.valueOf(month), StandardCharsets.UTF_8);
 
-            // Build the query string
+            // Construct the query string
             String queryString = String.format("role_name=%s&role_experience=%s&year=%s&month=%s",
                     encodedRoleName, encodedRoleExperience, encodedYear, encodedMonth);
 
-            // Build the full URL with query parameters
-            URI uri = URI.create(baseUrl + "?" + queryString);
+            // Combine the base URL with the query string
+            URI uri = URI.create(formattedUrl + "?" + queryString);
 
-            // Create HttpClient and HttpRequest objects
+            // Create and send the HTTP request
             HttpClient client = HttpClient.newHttpClient();
             HttpRequest request = HttpRequest.newBuilder()
                     .uri(uri)
                     .GET()
                     .build();
 
-            // Send the GET request and handle the response
-            HttpResponse<String> response  = client.send(request, HttpResponse.BodyHandlers.ofString());
-            return Double.parseDouble(response.body());
+            // Get the response
+            HttpResponse<String> response = client.send(request, HttpResponse.BodyHandlers.ofString());
+
+            // Parse the response and return the value
+            double responseValue = Double.parseDouble(response.body());
+            return responseValue;
 
         } catch (Exception e) {
             e.printStackTrace();
         }
         return 0.0;
     }
-
 }
 
 
